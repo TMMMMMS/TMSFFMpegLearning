@@ -1,0 +1,13 @@
+//
+//  PrefixHeader.pch
+//  FFMpegTest
+//
+//  Created by santian_mac on 2021/7/23.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import "TMSConst.h"
+
+#endif /* PrefixHeader_pch */

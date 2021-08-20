@@ -1,0 +1,79 @@
+//
+//  TMSVideoPlayer.m
+//  FFMpegTest
+//
+//  Created by TmmmS on 2021/7/10.
+//
+
+#import "TMSVideoPlayer.h"
+#import "TMSGLRenderView.h"
+
+@interface TMSVideoPlayer ()
+@property (nonatomic, assign)NSInteger fps;
+@property(nonatomic, strong) TMSGLRenderView *render;
+@end
+
+@implementation TMSVideoPlayer
+{
+    dispatch_source_t video_render_timer;
+    dispatch_queue_t video_render_dispatch_queue;
+    AVCodecContext *avctx;
+    AVStream *stream;
+}
+
+- (instancetype)initWithQueue:(dispatch_queue_t)queue
+                       render:(TMSGLRenderView *)videoRender
+                          fps:(int)fps
+                        avctx:(AVCodecContext *)avctx
+                       stream:(AVStream *)stream
+                     delegate:(id<TMSVideoPlayerDelegate>)delegate {
+    self = [super init];
+    if (self) {
+        self->video_render_dispatch_queue = queue;
+        self->avctx = avctx;
+        self->stream = stream;
+        self.fps = fps;
+        self.render = videoRender;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+#pragma mark - Private
+- (void)playNextVideoFrame {
+    [self.delegate readNextVideoFrame];
+}
+- (void)startVideoRender {
+    if(self->video_render_timer) {
+        dispatch_source_cancel(self->video_render_timer);
+    }
+    self->video_render_timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, video_render_dispatch_queue);
+    float duration = 1.0 / self.fps * NSEC_PER_SEC;
+    dispatch_source_set_timer(self->video_render_timer, DISPATCH_TIME_NOW, duration, duration);
+    dispatch_source_set_event_handler(self->video_render_timer, ^{
+        [self playNextVideoFrame];
+    });
+    dispatch_resume(self->video_render_timer);
+}
+
+- (void)stopVideoRender {
+    if(self->video_render_timer) dispatch_cancel(self->video_render_timer);
+}
+#pragma mark - Public
+- (void)startPlay {
+    [self startVideoRender];
+}
+- (void)stopPlay {
+    [self stopVideoRender];
+}
+- (void)renderFrame:(AVFrame *)frame {
+    float unit = av_q2d(self->stream->time_base);
+    float pts = unit * frame->pts;
+    float duration = frame->pkt_duration * unit;
+    [self.render displayWithFrame:frame];
+    [self.delegate updateVideoClock:pts duration:duration];
+}
+- (void)dealloc {
+    NSLog(@"%@--dealloc", NSStringFromClass([self class]));
+}
+@end

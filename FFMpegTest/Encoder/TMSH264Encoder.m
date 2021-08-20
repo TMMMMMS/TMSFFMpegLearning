@@ -275,6 +275,8 @@ static TMSH264Encoder *encoderInstance = nil;
     
     avio_close(pFormatCtx->pb);
     avformat_free_context(pFormatCtx);
+    
+    NSLog(@"h264写入成功");
 }
 
 - (int)flush_encoder {

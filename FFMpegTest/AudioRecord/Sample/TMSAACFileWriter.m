@@ -37,8 +37,13 @@
     NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentPath = [[searchPaths objectAtIndex:0] stringByAppendingPathComponent:@"audio"];
     
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:documentPath]) {
+        [fileManager createDirectoryAtPath:documentPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    format.dateFormat = @"yyyy_MM_dd__HH_mm_ss";
+    format.dateFormat = @"yyyy_MM_dd_HH_mm_ss";
     NSString *newString = [format stringFromDate:[NSDate date]];
     
     NSString *fullFileName = [NSString stringWithFormat:@"%@.%@",newString,@"aac"];

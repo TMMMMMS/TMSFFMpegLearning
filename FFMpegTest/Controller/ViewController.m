@@ -9,6 +9,7 @@
 #import "SeparateViewController.h"
 #import "TMSLiveController.h"
 #import "TMSDecodeViewController.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface ViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -57,17 +58,19 @@
             vc = [[TMSDecodeViewController alloc] init];
             break;
         case 1:
-            vc = [[TMSLiveController alloc] initWithRecordType:TMSLiveRecordAudioType];
+            vc = [self requestAuthorizationWithMediaType:AVMediaTypeAudio];
             break;
         case 2:
-            vc = [[TMSLiveController alloc] initWithRecordType:TMSLiveRecordVideoType];
+            vc = [self requestAuthorizationWithMediaType:AVMediaTypeVideo];
             break;
             
         default:
             break;
     }
     
-    [self.navigationController pushViewController:vc animated:YES];
+    if (vc) {
+        [self.navigationController pushViewController:vc animated:YES];
+    }
     
 }
 
@@ -104,6 +107,38 @@
         [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass(UITableViewCell.class)];
     }
     return _tableView;
+}
+
+- (UIViewController *)requestAuthorizationWithMediaType:(AVMediaType)mediaType {
+    
+    AVAuthorizationStatus videoAuthStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+    if (videoAuthStatus == AVAuthorizationStatusNotDetermined) {// 未询问用户是否授权
+        [AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted) {
+        }];
+        return nil;
+    } else if(videoAuthStatus == AVAuthorizationStatusRestricted || videoAuthStatus == AVAuthorizationStatusDenied) {// 未授权
+        [self showSetAlertViewWithMediaType:mediaType];
+        return nil;
+    } else{// 已授权
+        return [[TMSLiveController alloc] initWithRecordType:mediaType == AVMediaTypeAudio ? TMSLiveRecordAudioType : TMSLiveRecordVideoType];
+    }
+}
+
+//提示用户进行麦克风使用授权
+- (void)showSetAlertViewWithMediaType:(AVMediaType)mediaType {
+    
+    NSString *mediaStr = mediaType == AVMediaTypeAudio ? @"麦克风" : @"摄像头";
+    
+    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"%@权限未开启", mediaStr] message:[NSString stringWithFormat:@"%@权限未开启，请进入系统【设置】>【隐私】>【%@】中打开开关,开启%@功能", mediaStr, mediaStr, mediaStr] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *setAction = [UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //跳入当前App设置界面
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    }];
+    [alertVC addAction:cancelAction];
+    [alertVC addAction:setAction];
+    
+    [self presentViewController:alertVC animated:YES completion:nil];
 }
 
 @end

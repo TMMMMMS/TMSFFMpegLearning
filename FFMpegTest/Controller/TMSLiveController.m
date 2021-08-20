@@ -39,18 +39,23 @@
 
 - (void)backAction {
     
-    [self stopCaptureAction];
+    if (self.recordType == TMSLiveRecordVideoType) {
+        [self stopPreview];
+    } else {
+        if (_recorder.recording) {
+            [_recorder stop];
+            [_aacFileWriter close];
+            [self.rightBtn setTitle:@"开始" forState:UIControlStateNormal];
+        }
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)stopCaptureAction {
+- (void)captureAction {
     
     if (self.recordType == TMSLiveRecordVideoType) {
-        
         [self stopPreview];
-        
     } else {
-        
         if (_recorder.recording) {
             [_recorder stop];
             [_aacFileWriter close];
@@ -60,6 +65,7 @@
             [self.rightBtn setTitle:@"停止" forState:UIControlStateNormal];
         }
     }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidLoad {
@@ -78,7 +84,7 @@
     [self.rightBtn setTitle:@"开始" forState:UIControlStateNormal];
     [self.rightBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.rightBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [self.rightBtn addTarget:self action:@selector(stopCaptureAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.rightBtn addTarget:self action:@selector(captureAction) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];
     
     if (self.recordType == TMSLiveRecordVideoType) {
@@ -231,8 +237,14 @@
         _softH264Encoder = [TMSH264Encoder getInstance];
         
         NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *videoDict = [paths stringByAppendingPathComponent:@"video"] ; // /softEncoder.h264
-        NSString *videoFile = [videoDict stringByAppendingPathComponent:@"/softEncoder1.h264"];
+        NSString *videoDict = [paths stringByAppendingPathComponent:@"video"] ;
+        
+        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        format.dateFormat = @"yyyy_MM_dd_HH_mm_ss";
+        NSString *newString = [format stringFromDate:[NSDate date]];
+        
+        NSString *videoFile = [videoDict stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@",newString,@"h264"]];
+        
         NSFileManager *fileManager = [NSFileManager defaultManager];
         if(![fileManager fileExistsAtPath:videoFile])
         {

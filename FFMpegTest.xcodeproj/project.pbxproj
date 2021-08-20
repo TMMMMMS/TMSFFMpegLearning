@@ -54,6 +54,7 @@
 		906A4BEE26AAB6D8002AAA98 /* TMSAudioConvertor.m in Sources */ = {isa = PBXBuildFile; fileRef = 906A4BED26AAB6D8002AAA98 /* TMSAudioConvertor.m */; };
 		906A4BF126AAB7FB002AAA98 /* TMSAACFileWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 906A4BF026AAB7FB002AAA98 /* TMSAACFileWriter.m */; };
 		90B5AA6E269D7CF000D57DAD /* TMSFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B5AA6D269D7CF000D57DAD /* TMSFilter.m */; };
+		ADFC35E4F3E4519403267678 /* libPods-FFMpegTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D027EE0E3C87607E5165FB7 /* libPods-FFMpegTest.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -235,6 +236,9 @@
 		1A878AD92690611E0062A80A /* SeparateViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SeparateViewController.m; sourceTree = "<group>"; };
 		1ADE48CC26A2B9C800CA8A43 /* TMSAACEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMSAACEncoder.h; sourceTree = "<group>"; };
 		1ADE48CD26A2B9C800CA8A43 /* TMSAACEncoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMSAACEncoder.m; sourceTree = "<group>"; };
+		6D027EE0E3C87607E5165FB7 /* libPods-FFMpegTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FFMpegTest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E38A998B9DF0FF0072D272E /* Pods-FFMpegTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FFMpegTest.debug.xcconfig"; path = "Target Support Files/Pods-FFMpegTest/Pods-FFMpegTest.debug.xcconfig"; sourceTree = "<group>"; };
+		8CE7FC2B6E32C3871CF29BC9 /* Pods-FFMpegTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FFMpegTest.release.xcconfig"; path = "Target Support Files/Pods-FFMpegTest/Pods-FFMpegTest.release.xcconfig"; sourceTree = "<group>"; };
 		9060ECB3269E7C9F00444910 /* TMSLiveController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMSLiveController.h; sourceTree = "<group>"; };
 		9060ECB4269E7C9F00444910 /* TMSLiveController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMSLiveController.m; sourceTree = "<group>"; };
 		9060ECB6269E818E00444910 /* TMSH264Encoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMSH264Encoder.h; sourceTree = "<group>"; };
@@ -283,6 +287,7 @@
 				1A718D29262BEC7B006D2991 /* libavcodec.a in Frameworks */,
 				1A718D2C262BEC7B006D2991 /* libswresample.a in Frameworks */,
 				1A718D2A262BEC7B006D2991 /* libavformat.a in Frameworks */,
+				ADFC35E4F3E4519403267678 /* libPods-FFMpegTest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +318,7 @@
 				1A718C7F262BE0FE006D2991 /* Products */,
 				1A718D38262C19B8006D2991 /* Frameworks */,
 				1A70449126A7103E0002C6D6 /* Recovered References */,
+				42B9967CB37FD400D1087C36 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -577,8 +583,18 @@
 				1A718D40262C1A93006D2991 /* CoreAudio.framework */,
 				1A718D3E262C1A8A006D2991 /* AudioToolbox.framework */,
 				1A718D39262C19B8006D2991 /* VideoToolbox.framework */,
+				6D027EE0E3C87607E5165FB7 /* libPods-FFMpegTest.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		42B9967CB37FD400D1087C36 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7E38A998B9DF0FF0072D272E /* Pods-FFMpegTest.debug.xcconfig */,
+				8CE7FC2B6E32C3871CF29BC9 /* Pods-FFMpegTest.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		9064C6C226A035FF00C01169 /* AudioRecord */ = {
@@ -697,6 +713,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1A718C97262BE101006D2991 /* Build configuration list for PBXNativeTarget "FFMpegTest" */;
 			buildPhases = (
+				4EF80A2D14899CC6BF882EC9 /* [CP] Check Pods Manifest.lock */,
 				1A718C7A262BE0FE006D2991 /* Sources */,
 				1A718C7B262BE0FE006D2991 /* Frameworks */,
 				1A718C7C262BE0FE006D2991 /* Resources */,
@@ -756,6 +773,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4EF80A2D14899CC6BF882EC9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FFMpegTest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1A718C7A262BE0FE006D2991 /* Sources */ = {
@@ -926,6 +968,7 @@
 		};
 		1A718C98262BE101006D2991 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7E38A998B9DF0FF0072D272E /* Pods-FFMpegTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -935,7 +978,10 @@
 				DEVELOPMENT_TEAM = UGE5C8L29T;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/FFMpegTest/PrefixHeader.pch";
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/FFMpegTest/FFmpeg-iOS/include";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/FFMpegTest/FFmpeg-iOS/include",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = FFMpegTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -946,7 +992,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/FFMpegTest/FFmpeg-iOS/lib",
 				);
-				OTHER_LDFLAGS = "-Wno-deprecated-declarations";
+				OTHER_LDFLAGS = (
+					"-Wno-deprecated-declarations",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = TMS.FFMpegTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -955,6 +1004,7 @@
 		};
 		1A718C99262BE101006D2991 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8CE7FC2B6E32C3871CF29BC9 /* Pods-FFMpegTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -963,7 +1013,10 @@
 				DEVELOPMENT_TEAM = UGE5C8L29T;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/FFMpegTest/PrefixHeader.pch";
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/FFMpegTest/FFmpeg-iOS/include";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/FFMpegTest/FFmpeg-iOS/include",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = FFMpegTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -974,7 +1027,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/FFMpegTest/FFmpeg-iOS/lib",
 				);
-				OTHER_LDFLAGS = "-Wno-deprecated-declarations";
+				OTHER_LDFLAGS = (
+					"-Wno-deprecated-declarations",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = TMS.FFMpegTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;

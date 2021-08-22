@@ -9,6 +9,7 @@
 #import "SeparateViewController.h"
 #import "TMSLiveController.h"
 #import "TMSDecodeViewController.h"
+#import "TMSLiveStreamingViewController.h"
 #import <AVFoundation/AVFoundation.h>
 
 @interface ViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -53,20 +54,22 @@
     
     UIViewController *vc;
     
-    switch (indexPath.row) {
-        case 0:
-            vc = [[TMSDecodeViewController alloc] init];
-            break;
-        case 1:
-            vc = [self requestAuthorizationWithMediaType:AVMediaTypeAudio];
-            break;
-        case 2:
-            vc = [self requestAuthorizationWithMediaType:AVMediaTypeVideo];
-            break;
-            
-        default:
-            break;
-    }
+    vc = [[TMSLiveStreamingViewController alloc] init];
+    
+//    switch (indexPath.row) {
+//        case 0:
+//            vc = [[TMSDecodeViewController alloc] init];
+//            break;
+//        case 1:
+//            vc = [self requestAuthorizationWithMediaType:AVMediaTypeAudio];
+//            break;
+//        case 2:
+//            vc = [self requestAuthorizationWithMediaType:AVMediaTypeVideo];
+//            break;
+//            
+//        default:
+//            break;
+//    }
     
     if (vc) {
         [self.navigationController pushViewController:vc animated:YES];

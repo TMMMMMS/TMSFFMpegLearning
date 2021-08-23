@@ -44,7 +44,7 @@
 		1A76A22826D0F4E3005BEA7E /* TMSLiveStreamingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A76A22726D0F4E3005BEA7E /* TMSLiveStreamingViewController.m */; };
 		1ADE48CE26A2B9C800CA8A43 /* TMSAACEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE48CD26A2B9C800CA8A43 /* TMSAACEncoder.m */; };
 		9060ECB5269E7C9F00444910 /* TMSLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9060ECB4269E7C9F00444910 /* TMSLiveController.m */; };
-		9060ECB8269E818E00444910 /* TMSH264Encoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9060ECB7269E818E00444910 /* TMSH264Encoder.m */; };
+		9060ECB8269E818E00444910 /* TMSSoftH264Encoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9060ECB7269E818E00444910 /* TMSSoftH264Encoder.m */; };
 		906873C626CE339600ECFDC9 /* TMSDecodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 906873C526CE339600ECFDC9 /* TMSDecodeViewController.m */; };
 		906873C926CE37BC00ECFDC9 /* TMSPlayVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 906873C826CE37BC00ECFDC9 /* TMSPlayVideoViewController.m */; };
 		906873CC26CE3C7000ECFDC9 /* TMSDecodeMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 906873CB26CE3C7000ECFDC9 /* TMSDecodeMediaViewController.m */; };
@@ -241,8 +241,8 @@
 		8CE7FC2B6E32C3871CF29BC9 /* Pods-FFMpegTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FFMpegTest.release.xcconfig"; path = "Target Support Files/Pods-FFMpegTest/Pods-FFMpegTest.release.xcconfig"; sourceTree = "<group>"; };
 		9060ECB3269E7C9F00444910 /* TMSLiveController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMSLiveController.h; sourceTree = "<group>"; };
 		9060ECB4269E7C9F00444910 /* TMSLiveController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMSLiveController.m; sourceTree = "<group>"; };
-		9060ECB6269E818E00444910 /* TMSH264Encoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMSH264Encoder.h; sourceTree = "<group>"; };
-		9060ECB7269E818E00444910 /* TMSH264Encoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMSH264Encoder.m; sourceTree = "<group>"; };
+		9060ECB6269E818E00444910 /* TMSSoftH264Encoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMSSoftH264Encoder.h; sourceTree = "<group>"; };
+		9060ECB7269E818E00444910 /* TMSSoftH264Encoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMSSoftH264Encoder.m; sourceTree = "<group>"; };
 		9064C6C626A036DF00C01169 /* TMSConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMSConst.h; sourceTree = "<group>"; };
 		906873C426CE339600ECFDC9 /* TMSDecodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMSDecodeViewController.h; sourceTree = "<group>"; };
 		906873C526CE339600ECFDC9 /* TMSDecodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMSDecodeViewController.m; sourceTree = "<group>"; };
@@ -649,8 +649,8 @@
 		906873D026CE4F9A00ECFDC9 /* Encoder */ = {
 			isa = PBXGroup;
 			children = (
-				9060ECB6269E818E00444910 /* TMSH264Encoder.h */,
-				9060ECB7269E818E00444910 /* TMSH264Encoder.m */,
+				9060ECB6269E818E00444910 /* TMSSoftH264Encoder.h */,
+				9060ECB7269E818E00444910 /* TMSSoftH264Encoder.m */,
 				1ADE48CC26A2B9C800CA8A43 /* TMSAACEncoder.h */,
 				1ADE48CD26A2B9C800CA8A43 /* TMSAACEncoder.m */,
 			);
@@ -813,7 +813,7 @@
 				90B5AA6E269D7CF000D57DAD /* TMSFilter.m in Sources */,
 				9060ECB5269E7C9F00444910 /* TMSLiveController.m in Sources */,
 				906A4BE826AAAEBC002AAA98 /* TMSAudioBufferData.c in Sources */,
-				9060ECB8269E818E00444910 /* TMSH264Encoder.m in Sources */,
+				9060ECB8269E818E00444910 /* TMSSoftH264Encoder.m in Sources */,
 				1A718C94262BE101006D2991 /* main.m in Sources */,
 				1A6A54B52699709200168C59 /* TMSMediaVideoContext.m in Sources */,
 				1A4A226C2695E88F004091FB /* TMSMediaAudioContext.m in Sources */,

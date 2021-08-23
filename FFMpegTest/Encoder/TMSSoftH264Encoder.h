@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TMSH264Encoder : NSObject
+@interface TMSSoftH264Encoder : NSObject
 + (instancetype)getInstance;
 - (void)setFileSavedPath:(NSString *)path;
 - (int)setEncoderVideoWidth:(int)width height:(int)height bitrate:(int)bitrate;

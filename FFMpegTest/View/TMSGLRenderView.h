@@ -14,9 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TMSGLRenderView : UIView
-- (id) initWithFrame:(CGRect)frame videoContext:(TMSMediaVideoContext *)videoContext;
 - (void)displayWithFrame:(AVFrame *)yuvFrame;
-
 @end
 
 NS_ASSUME_NONNULL_END

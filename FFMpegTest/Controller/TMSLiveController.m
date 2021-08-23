@@ -8,7 +8,7 @@
 #import "TMSLiveController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "TMSAACEncoder.h"
-#import "TMSH264Encoder.h"
+#import "TMSSoftH264Encoder.h"
 #import "TMSAudioRecorder.h"
 #import "TMSAudioConvertor.h"
 #import "TMSAACFileWriter.h"
@@ -23,7 +23,7 @@
 @property (nonatomic, strong) UIView *m_displayView;
 @property (nonatomic, strong) AVCaptureVideoDataOutput *video_output;
 @property (nonatomic, strong) AVCaptureSession *m_session;
-@property (nonatomic,strong) TMSH264Encoder *softH264Encoder;
+@property (nonatomic,strong) TMSSoftH264Encoder *softH264Encoder;
 @property (nonatomic, strong) UIButton *rightBtn;
 @end
 
@@ -231,10 +231,10 @@
    
 }
 
-- (TMSH264Encoder *)softH264Encoder
+- (TMSSoftH264Encoder *)softH264Encoder
 {
     if (!_softH264Encoder) {
-        _softH264Encoder = [TMSH264Encoder getInstance];
+        _softH264Encoder = [TMSSoftH264Encoder getInstance];
         
         NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSString *videoDict = [paths stringByAppendingPathComponent:@"video"] ;

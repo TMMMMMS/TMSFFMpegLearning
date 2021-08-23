@@ -5,7 +5,7 @@
 //  Created by santian_mac on 2021/7/14.
 //
 
-#import "TMSH264Encoder.h"
+#import "TMSSoftH264Encoder.h"
 #import <libavcodec/avcodec.h>
 #import <libavformat/avformat.h>
 #import <libavutil/avstring.h>
@@ -13,9 +13,9 @@
 #import <libavutil/error.h>
 #import <libswscale/swscale.h>
 
-static TMSH264Encoder *encoderInstance = nil;
+static TMSSoftH264Encoder *encoderInstance = nil;
 
-@interface TMSH264Encoder ()
+@interface TMSSoftH264Encoder ()
 {
     AVFormatContext                     *pFormatCtx;
     AVOutputFormat                      *fmt;
@@ -35,12 +35,12 @@ static TMSH264Encoder *encoderInstance = nil;
 }
 @end
 
-@implementation TMSH264Encoder
+@implementation TMSSoftH264Encoder
 
 + (instancetype)getInstance
 {
     if (encoderInstance == NULL) {
-        encoderInstance = [[TMSH264Encoder alloc] init];
+        encoderInstance = [[TMSSoftH264Encoder alloc] init];
     }
     return encoderInstance;
 }

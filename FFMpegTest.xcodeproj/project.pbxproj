@@ -42,7 +42,6 @@
 		1A718D5D262C1BEE006D2991 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A718D3E262C1A8A006D2991 /* AudioToolbox.framework */; };
 		1A718D62262C1C0A006D2991 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A718D47262C1AAE006D2991 /* CoreMedia.framework */; };
 		1A76A22826D0F4E3005BEA7E /* TMSLiveStreamingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A76A22726D0F4E3005BEA7E /* TMSLiveStreamingViewController.m */; };
-		1A878ADA2690611E0062A80A /* SeparateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A878AD92690611E0062A80A /* SeparateViewController.m */; };
 		1ADE48CE26A2B9C800CA8A43 /* TMSAACEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE48CD26A2B9C800CA8A43 /* TMSAACEncoder.m */; };
 		9060ECB5269E7C9F00444910 /* TMSLiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9060ECB4269E7C9F00444910 /* TMSLiveController.m */; };
 		9060ECB8269E818E00444910 /* TMSH264Encoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9060ECB7269E818E00444910 /* TMSH264Encoder.m */; };
@@ -235,8 +234,6 @@
 		1A718D4F262C1AD1006D2991 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
 		1A76A22626D0F4E3005BEA7E /* TMSLiveStreamingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMSLiveStreamingViewController.h; sourceTree = "<group>"; };
 		1A76A22726D0F4E3005BEA7E /* TMSLiveStreamingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMSLiveStreamingViewController.m; sourceTree = "<group>"; };
-		1A878AD82690611E0062A80A /* SeparateViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SeparateViewController.h; sourceTree = "<group>"; };
-		1A878AD92690611E0062A80A /* SeparateViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SeparateViewController.m; sourceTree = "<group>"; };
 		1ADE48CC26A2B9C800CA8A43 /* TMSAACEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMSAACEncoder.h; sourceTree = "<group>"; };
 		1ADE48CD26A2B9C800CA8A43 /* TMSAACEncoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMSAACEncoder.m; sourceTree = "<group>"; };
 		6D027EE0E3C87607E5165FB7 /* libPods-FFMpegTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FFMpegTest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -349,10 +346,6 @@
 				1A718C82262BE0FE006D2991 /* AppDelegate.m */,
 				1A718C84262BE0FE006D2991 /* SceneDelegate.h */,
 				1A718C85262BE0FE006D2991 /* SceneDelegate.m */,
-				1A878AD82690611E0062A80A /* SeparateViewController.h */,
-				1A878AD92690611E0062A80A /* SeparateViewController.m */,
-				1A76A22626D0F4E3005BEA7E /* TMSLiveStreamingViewController.h */,
-				1A76A22726D0F4E3005BEA7E /* TMSLiveStreamingViewController.m */,
 				1A6DE2A326948C230062EE22 /* TMSAudioInformation.h */,
 				906A4BF226AABF58002AAA98 /* PrefixHeader.pch */,
 				1A718C8A262BE0FE006D2991 /* Main.storyboard */,
@@ -625,6 +618,8 @@
 				906873C826CE37BC00ECFDC9 /* TMSPlayVideoViewController.m */,
 				9060ECB3269E7C9F00444910 /* TMSLiveController.h */,
 				9060ECB4269E7C9F00444910 /* TMSLiveController.m */,
+				1A76A22626D0F4E3005BEA7E /* TMSLiveStreamingViewController.h */,
+				1A76A22726D0F4E3005BEA7E /* TMSLiveStreamingViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -819,7 +814,6 @@
 				9060ECB5269E7C9F00444910 /* TMSLiveController.m in Sources */,
 				906A4BE826AAAEBC002AAA98 /* TMSAudioBufferData.c in Sources */,
 				9060ECB8269E818E00444910 /* TMSH264Encoder.m in Sources */,
-				1A878ADA2690611E0062A80A /* SeparateViewController.m in Sources */,
 				1A718C94262BE101006D2991 /* main.m in Sources */,
 				1A6A54B52699709200168C59 /* TMSMediaVideoContext.m in Sources */,
 				1A4A226C2695E88F004091FB /* TMSMediaAudioContext.m in Sources */,
@@ -981,7 +975,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = A5BN739R88;
+				DEVELOPMENT_TEAM = UGE5C8L29T;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/FFMpegTest/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1016,7 +1010,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = A5BN739R88;
+				DEVELOPMENT_TEAM = UGE5C8L29T;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/FFMpegTest/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (

@@ -6,7 +6,6 @@
 //
 
 #import "ViewController.h"
-#import "SeparateViewController.h"
 #import "TMSLiveController.h"
 #import "TMSDecodeViewController.h"
 #import "TMSLiveStreamingViewController.h"
@@ -26,7 +25,7 @@
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 4;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -41,8 +40,10 @@
         cell.textLabel.text = @"FFMpeg解码";
     } else if (indexPath.row == 1) {
         cell.textLabel.text = @"音频实时录制";
-    } else {
+    } else if (indexPath.row == 2) {
         cell.textLabel.text = @"视频实时录制";
+    } else {
+        cell.textLabel.text = @"直播推流";
     }
     
     return cell;
@@ -54,22 +55,23 @@
     
     UIViewController *vc;
     
-    vc = [[TMSLiveStreamingViewController alloc] init];
-    
-//    switch (indexPath.row) {
-//        case 0:
-//            vc = [[TMSDecodeViewController alloc] init];
-//            break;
-//        case 1:
-//            vc = [self requestAuthorizationWithMediaType:AVMediaTypeAudio];
-//            break;
-//        case 2:
-//            vc = [self requestAuthorizationWithMediaType:AVMediaTypeVideo];
-//            break;
-//            
-//        default:
-//            break;
-//    }
+    switch (indexPath.row) {
+        case 0:
+            vc = [[TMSDecodeViewController alloc] init];
+            break;
+        case 1:
+            vc = [self requestAuthorizationWithMediaType:AVMediaTypeAudio indexPath:indexPath];
+            break;
+        case 2:
+            vc = [self requestAuthorizationWithMediaType:AVMediaTypeVideo indexPath:indexPath];
+            break;
+        case 3:
+            vc = [self requestAuthorizationWithMediaType:AVMediaTypeAudio indexPath:indexPath];
+            break;
+
+        default:
+            break;
+    }
     
     if (vc) {
         [self.navigationController pushViewController:vc animated:YES];
@@ -112,7 +114,7 @@
     return _tableView;
 }
 
-- (UIViewController *)requestAuthorizationWithMediaType:(AVMediaType)mediaType {
+- (UIViewController *)requestAuthorizationWithMediaType:(AVMediaType)mediaType indexPath:(NSIndexPath *)indexPath {
     
     AVAuthorizationStatus videoAuthStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
     if (videoAuthStatus == AVAuthorizationStatusNotDetermined) {// 未询问用户是否授权
@@ -123,7 +125,16 @@
         [self showSetAlertViewWithMediaType:mediaType];
         return nil;
     } else{// 已授权
-        return [[TMSLiveController alloc] initWithRecordType:mediaType == AVMediaTypeAudio ? TMSLiveRecordAudioType : TMSLiveRecordVideoType];
+        
+        if (indexPath.row == 2) {
+            return [[TMSLiveController alloc] initWithRecordType:mediaType == AVMediaTypeAudio ? TMSLiveRecordAudioType : TMSLiveRecordVideoType];
+        } else {
+            if (mediaType == AVMediaTypeAudio) {
+                return [self requestAuthorizationWithMediaType:AVMediaTypeVideo indexPath:indexPath];
+            } else {
+                return [[TMSLiveStreamingViewController alloc] init];
+            }
+        }
     }
 }
 

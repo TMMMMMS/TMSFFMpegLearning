@@ -40,7 +40,8 @@
 
 - (void)startLive {
     LFLiveStreamInfo *streamInfo = [LFLiveStreamInfo new];
-    streamInfo.url = @"rtmp://192.168.1.102:1950/ppx/room";
+//    streamInfo.url = @"rtmp://192.168.110.19:1950/ppx/room";
+    streamInfo.url = @"rtmp://192.168.110.19:1935/hls/live1";
     [self.liveSession startLive:streamInfo];
 }
 
@@ -58,7 +59,7 @@
 }
 //推流错误的回调函数
 - (void)liveSession:(nullable LFLiveSession*)session errorCode:(LFLiveSocketErrorCode)errorCode {
-    NSLog(@"%s", __func__);
+    NSLog(@"LFLiveSocketErrorCode = %zd", errorCode);
 }
 
 - (LFLiveSession*)liveSession {
@@ -68,8 +69,6 @@
         _liveSession.preView = self.previewView;
         // 设置为后置摄像头
         _liveSession.captureDevicePosition = AVCaptureDevicePositionBack;
-        // 开启美颜
-        _liveSession.beautyFace = YES;
         _liveSession.delegate = self;
         
         _liveSession.running = YES;

@@ -14,16 +14,13 @@
 #import "TMSAACFileWriter.h"
 
 @interface TMSLiveController ()<AVCaptureVideoDataOutputSampleBufferDelegate>
-{
-    TMSAudioRecorder *_recorder;
-    
-    TMSAACFileWriter *_aacFileWriter;
-}
+@property (nonatomic, strong) TMSAudioRecorder *audioRecorder;
+@property (nonatomic, strong) TMSAACFileWriter *aacFileWriter;
+@property (nonatomic, strong) TMSSoftH264Encoder *softH264Encoder;
 @property (nonatomic, assign) TMSLiveRecordType recordType;
 @property (nonatomic, strong) UIView *m_displayView;
 @property (nonatomic, strong) AVCaptureVideoDataOutput *video_output;
 @property (nonatomic, strong) AVCaptureSession *m_session;
-@property (nonatomic,strong) TMSSoftH264Encoder *softH264Encoder;
 @property (nonatomic, strong) UIButton *rightBtn;
 @end
 
@@ -42,9 +39,9 @@
     if (self.recordType == TMSLiveRecordVideoType) {
         [self stopPreview];
     } else {
-        if (_recorder.recording) {
-            [_recorder stop];
-            [_aacFileWriter close];
+        if (self.audioRecorder.recording) {
+            [self.audioRecorder stop];
+            [self.aacFileWriter close];
             [self.rightBtn setTitle:@"开始" forState:UIControlStateNormal];
         }
     }
@@ -56,12 +53,12 @@
     if (self.recordType == TMSLiveRecordVideoType) {
         [self stopPreview];
     } else {
-        if (_recorder.recording) {
-            [_recorder stop];
-            [_aacFileWriter close];
+        if (self.audioRecorder.recording) {
+            [self.audioRecorder stop];
+            [self.aacFileWriter close];
             [self.rightBtn setTitle:@"开始" forState:UIControlStateNormal];
         }else{
-            [_recorder start];
+            [self.audioRecorder start];
             [self.rightBtn setTitle:@"停止" forState:UIControlStateNormal];
             return;
         }
@@ -261,17 +258,17 @@
 
 -(void)setupAacAdtsPipline{
     
-    _recorder = [[TMSAudioRecorder alloc] init];
+    self.audioRecorder = [[TMSAudioRecorder alloc] init];
     
     TMSAudioConvertor *converter = [[TMSAudioConvertor alloc] init];
     AudioStreamBasicDescription outputDesc = {
         0, kAudioFormatMPEG4AAC, 0, 0, kAudioAACFramesPerPacket,0,0,0,0
     };
     converter.outputDesc = outputDesc;
-    [_recorder addTarget:converter];
+    [self.audioRecorder addTarget:converter];
     
-    _aacFileWriter = [[TMSAACFileWriter alloc] init];
-    [converter addTarget:_aacFileWriter];
+    self.aacFileWriter = [[TMSAACFileWriter alloc] init];
+    [converter addTarget:self.aacFileWriter];
 
 }
 

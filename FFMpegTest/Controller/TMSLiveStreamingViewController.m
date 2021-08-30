@@ -70,6 +70,8 @@
         // 设置为后置摄像头
         _liveSession.captureDevicePosition = AVCaptureDevicePositionBack;
         _liveSession.delegate = self;
+        _liveSession.reconnectCount = 5;
+        _liveSession.reconnectInterval = 3;
         
         _liveSession.running = YES;
     }

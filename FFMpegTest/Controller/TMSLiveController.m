@@ -63,6 +63,7 @@
         }else{
             [_recorder start];
             [self.rightBtn setTitle:@"停止" forState:UIControlStateNormal];
+            return;
         }
     }
     [self.navigationController popViewControllerAnimated:YES];

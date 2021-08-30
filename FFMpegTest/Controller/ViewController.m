@@ -39,9 +39,9 @@
     if (indexPath.row == 0) {
         cell.textLabel.text = @"FFMpeg解码";
     } else if (indexPath.row == 1) {
-        cell.textLabel.text = @"音频实时录制";
+        cell.textLabel.text = @"音频实时录制并编码成aac文件";
     } else if (indexPath.row == 2) {
-        cell.textLabel.text = @"视频实时录制";
+        cell.textLabel.text = @"视频实时录制并编码成h264文件";
     } else {
         cell.textLabel.text = @"直播推流";
     }
@@ -126,7 +126,7 @@
         return nil;
     } else{// 已授权
         
-        if (indexPath.row == 2) {
+        if (indexPath.row == 1 || indexPath.row == 2) {
             return [[TMSLiveController alloc] initWithRecordType:mediaType == AVMediaTypeAudio ? TMSLiveRecordAudioType : TMSLiveRecordVideoType];
         } else {
             if (mediaType == AVMediaTypeAudio) {

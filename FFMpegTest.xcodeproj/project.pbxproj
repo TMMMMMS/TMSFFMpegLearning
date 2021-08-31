@@ -53,6 +53,9 @@
 		906A4BE826AAAEBC002AAA98 /* TMSAudioBufferData.c in Sources */ = {isa = PBXBuildFile; fileRef = 906A4BE726AAAEBC002AAA98 /* TMSAudioBufferData.c */; };
 		906A4BEE26AAB6D8002AAA98 /* TMSAudioConvertor.m in Sources */ = {isa = PBXBuildFile; fileRef = 906A4BED26AAB6D8002AAA98 /* TMSAudioConvertor.m */; };
 		906A4BF126AAB7FB002AAA98 /* TMSAACFileWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 906A4BF026AAB7FB002AAA98 /* TMSAACFileWriter.m */; };
+		906CB4D226DDFA43005CC93D /* TMSMuxingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 906CB4D126DDFA43005CC93D /* TMSMuxingViewController.m */; };
+		906CB4D526DE067C005CC93D /* abc.h264 in Resources */ = {isa = PBXBuildFile; fileRef = 906CB4D326DE067C005CC93D /* abc.h264 */; };
+		906CB4D826DE0F49005CC93D /* abc.aac in Resources */ = {isa = PBXBuildFile; fileRef = 906CB4D726DE0F48005CC93D /* abc.aac */; };
 		90B5AA6E269D7CF000D57DAD /* TMSFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B5AA6D269D7CF000D57DAD /* TMSFilter.m */; };
 		ADFC35E4F3E4519403267678 /* libPods-FFMpegTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D027EE0E3C87607E5165FB7 /* libPods-FFMpegTest.a */; };
 /* End PBXBuildFile section */
@@ -262,6 +265,10 @@
 		906A4BEF26AAB7FB002AAA98 /* TMSAACFileWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMSAACFileWriter.h; sourceTree = "<group>"; };
 		906A4BF026AAB7FB002AAA98 /* TMSAACFileWriter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMSAACFileWriter.m; sourceTree = "<group>"; };
 		906A4BF226AABF58002AAA98 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		906CB4D026DDFA43005CC93D /* TMSMuxingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMSMuxingViewController.h; sourceTree = "<group>"; };
+		906CB4D126DDFA43005CC93D /* TMSMuxingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMSMuxingViewController.m; sourceTree = "<group>"; };
+		906CB4D326DE067C005CC93D /* abc.h264 */ = {isa = PBXFileReference; lastKnownFileType = file; path = abc.h264; sourceTree = "<group>"; };
+		906CB4D726DE0F48005CC93D /* abc.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = abc.aac; sourceTree = "<group>"; };
 		90B5AA6C269D7CF000D57DAD /* TMSFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMSFilter.h; sourceTree = "<group>"; };
 		90B5AA6D269D7CF000D57DAD /* TMSFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMSFilter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -297,6 +304,8 @@
 		1A6E9BF6263D1E5100CEA50B /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				906CB4D726DE0F48005CC93D /* abc.aac */,
+				906CB4D326DE067C005CC93D /* abc.h264 */,
 				1A64D2F3269C9CA100DA3E90 /* flutter.mp4 */,
 				1A6A54C12699AE0000168C59 /* vertex.vsh */,
 				1A6A54C32699AE1100168C59 /* yuv_fragment.fsh */,
@@ -620,6 +629,8 @@
 				9060ECB4269E7C9F00444910 /* TMSLiveController.m */,
 				1A76A22626D0F4E3005BEA7E /* TMSLiveStreamingViewController.h */,
 				1A76A22726D0F4E3005BEA7E /* TMSLiveStreamingViewController.m */,
+				906CB4D026DDFA43005CC93D /* TMSMuxingViewController.h */,
+				906CB4D126DDFA43005CC93D /* TMSMuxingViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -766,9 +777,11 @@
 				1A6A54C42699AE1100168C59 /* yuv_fragment.fsh in Resources */,
 				1A718C91262BE101006D2991 /* LaunchScreen.storyboard in Resources */,
 				1A64D2F4269C9CA100DA3E90 /* flutter.mp4 in Resources */,
+				906CB4D826DE0F49005CC93D /* abc.aac in Resources */,
 				1A718C8E262BE101006D2991 /* Assets.xcassets in Resources */,
 				1A718C8C262BE0FE006D2991 /* Main.storyboard in Resources */,
 				1A6A54C22699AE0000168C59 /* vertex.vsh in Resources */,
+				906CB4D526DE067C005CC93D /* abc.h264 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -823,6 +836,7 @@
 				906873C926CE37BC00ECFDC9 /* TMSPlayVideoViewController.m in Sources */,
 				906A4BF126AAB7FB002AAA98 /* TMSAACFileWriter.m in Sources */,
 				1A6A54BB26998AA100168C59 /* TMSVideoPlayer.m in Sources */,
+				906CB4D226DDFA43005CC93D /* TMSMuxingViewController.m in Sources */,
 				906873CC26CE3C7000ECFDC9 /* TMSDecodeMediaViewController.m in Sources */,
 				906873C626CE339600ECFDC9 /* TMSDecodeViewController.m in Sources */,
 				906A4BEE26AAB6D8002AAA98 /* TMSAudioConvertor.m in Sources */,

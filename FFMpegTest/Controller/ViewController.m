@@ -7,6 +7,7 @@
 
 #import "ViewController.h"
 #import "TMSLiveController.h"
+#import "TMSMuxingViewController.h"
 #import "TMSDecodeViewController.h"
 #import "TMSLiveStreamingViewController.h"
 #import <AVFoundation/AVFoundation.h>
@@ -25,7 +26,7 @@
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return 5;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -42,6 +43,8 @@
         cell.textLabel.text = @"音频实时录制并编码成aac文件";
     } else if (indexPath.row == 2) {
         cell.textLabel.text = @"视频实时录制并编码成h264文件";
+    } else if (indexPath.row == 3) {
+        cell.textLabel.text = @"FFMpeg视频封装";
     } else {
         cell.textLabel.text = @"直播推流";
     }
@@ -54,7 +57,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     UIViewController *vc;
-    
+
     switch (indexPath.row) {
         case 0:
             vc = [[TMSDecodeViewController alloc] init];
@@ -66,6 +69,9 @@
             vc = [self requestAuthorizationWithMediaType:AVMediaTypeVideo indexPath:indexPath];
             break;
         case 3:
+            vc = [[TMSMuxingViewController alloc] init];
+            break;
+        case 4:
             vc = [self requestAuthorizationWithMediaType:AVMediaTypeAudio indexPath:indexPath];
             break;
 

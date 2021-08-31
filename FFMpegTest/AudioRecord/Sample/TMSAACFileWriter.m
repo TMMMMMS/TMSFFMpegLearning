@@ -12,11 +12,6 @@
 {
     AudioStreamBasicDescription _audioDesc;
     
-    AVAssetWriter *_writer;
-    AVAssetWriterInput *_audioInput;
-    
-    double relativeStartTime;
-    
     AudioFileID audioFile;
     UInt32 packetIndex;
 }
@@ -116,88 +111,6 @@ float totalSize = 0;
 #if !WRITE_PCM_TO_DISK
     NSLog(@"输出的aac文件大小：%.3fM",totalSize/1024/1024);
 #endif
-}
-
-#pragma mark - AVAssetWriter
-- (void)setupWriter {
-    
-    if (_audioDesc.mSampleRate != 0 && _filePath != nil) {
-        NSError *error = nil;
-        _writer = [[AVAssetWriter alloc] initWithURL:[NSURL fileURLWithPath:_filePath] fileType:AVFileTypeAppleM4A error:&error];
-        
-        AudioChannelLayout acl;
-        bzero(&acl, sizeof(acl));
-        acl.mChannelLayoutTag = kAudioChannelLayoutTag_Mono;
-        
-        NSDictionary *audioSettings = @{
-            AVFormatIDKey : @(kAudioFormatMPEG4AAC),
-            AVNumberOfChannelsKey : @(_audioDesc.mChannelsPerFrame),
-            AVSampleRateKey : @(_audioDesc.mSampleRate),
-            AVEncoderBitRateKey : @(64000),
-            AVChannelLayoutKey : [NSData dataWithBytes: &acl length: sizeof( acl )]
-        };
-        _audioInput = [[AVAssetWriterInput alloc] initWithMediaType:AVMediaTypeAudio outputSettings:audioSettings];
-        _audioInput.expectsMediaDataInRealTime = NO;
-        
-        
-        [_writer addInput:_audioInput];
-        
-        BOOL succeed = [_writer startWriting];
-        [_writer startSessionAtSourceTime:[self getTimeStamp]];
-        if (!succeed) {
-            NSLog(@"audio writer startWriting!");
-        }
-    }
-}
-
-- (void)assetWriteAudioBuffers:(TMSAudioBufferData *)bufferData {
-    
-    AudioBuffer inBuffer = bufferData->bufferList->mBuffers[0];
-    
-    CMBlockBufferRef BlockBuffer = NULL;
-    OSStatus status = CMBlockBufferCreateWithMemoryBlock(NULL, inBuffer.mData, inBuffer.mDataByteSize,kCFAllocatorNull, NULL, 0, inBuffer.mDataByteSize, kCMBlockBufferAlwaysCopyDataFlag, &BlockBuffer);
-    if (status != noErr) {
-        NSLog(@"create memory block error");
-    }
-    
-    CMSampleBufferRef sampleBuffer = NULL;
-    CMFormatDescriptionRef formatDescription;
-    status = CMFormatDescriptionCreate ( kCFAllocatorDefault, // Allocator
-                                        kCMMediaType_Audio,
-                                        kAudioFormatMPEG4AAC,
-                                        NULL,
-                                        &formatDescription);
-    if (status != noErr) {
-        NSLog(@"CMFormatDescriptionCreate error");
-    }
-    
-    CMSampleTimingInfo sampleTimingInfo = {[self getDurationFor:bufferData],[self getTimeStamp],kCMTimeInvalid };
-    size_t sampleSizeInfo = inBuffer.mDataByteSize;
-    
-    status = CMSampleBufferCreate(kCFAllocatorDefault, BlockBuffer, YES, NULL, NULL, formatDescription, 1, 1, &sampleTimingInfo, 1, &sampleSizeInfo, &sampleBuffer);
-    if (status != noErr) {
-        NSLog(@"CMSampleBufferCreate error");
-    }
-    
-    BOOL succeed = [_audioInput appendSampleBuffer:sampleBuffer];
-    if (!succeed) {
-        AVAssetWriterStatus status = _writer.status;
-        NSLog(@"write audio input error!, writer status: %ld, error: %@",status, _writer.error);
-    }
-}
-
-- (CMTime)getTimeStamp {
-    
-    if (relativeStartTime == 0) {
-        relativeStartTime = CACurrentMediaTime();
-    }
-    
-    double relativeTime = CACurrentMediaTime() - relativeStartTime;
-    return CMTimeMakeWithSeconds(relativeTime, _audioDesc.mSampleRate);
-}
-
-- (CMTime)getDurationFor:(TMSAudioBufferData *)bufferData {
-    return CMTimeMake(bufferData->inNumberFrames, _audioDesc.mSampleRate);
 }
 
 @end

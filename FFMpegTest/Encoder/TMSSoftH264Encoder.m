@@ -32,6 +32,7 @@ static TMSSoftH264Encoder *encoderInstance = nil;
     
     int                                  encoder_h264_frame_width; // 编码的图像宽度
     int                                  encoder_h264_frame_height; // 编码的图像高度
+    FILE                                *file;
 }
 @end
 
@@ -51,6 +52,8 @@ static TMSSoftH264Encoder *encoderInstance = nil;
     char *filepath = (char*)malloc(sizeof(char) * (len + 1));
     [path getCString:filepath maxLength:len + 1 encoding:[NSString defaultCStringEncoding]];
     out_file = filepath;
+    
+    file = fopen(out_file, "wb");
 }
 
 /*
@@ -119,6 +122,11 @@ static TMSSoftH264Encoder *encoderInstance = nil;
     // 但同时对于编解码的复杂度比较高，比较消耗性能与时间
     pCodecCtx->max_b_frames = 5;
     
+//    // 不设置时，仅第一个I帧前存一次sps和pps
+//    // 设置后，I帧钱不会存储sps和pps
+//    // 但是，enc_ctx->extradata会有数据，需要手动处理
+//    pCodecCtx->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
+    
     // 9.可选设置
     AVDictionary *param = 0;
     // H.264
@@ -159,7 +167,7 @@ static TMSSoftH264Encoder *encoderInstance = nil;
     av_image_fill_arrays(pFrame->data, pFrame->linesize, picture_buf, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height, 1);
     
     // 17.h264 封装格式的文件头部，基本上每种编码都有着自己的格式的头部。
-    if (avformat_write_header(pFormatCtx, NULL) < 0) { printf("Failed to write! \n"); return -1; }
+//    if (avformat_write_header(pFormatCtx, NULL) < 0) { printf("Failed to write! \n"); return -1; }
     
     // 18.创建编码后的数据 AVPacket 结构体来存储 AVFrame 编码后生成的数据
     av_new_packet(&pkt, picture_size);
@@ -239,8 +247,18 @@ static TMSSoftH264Encoder *encoderInstance = nil;
         while (avcodec_receive_packet(pCodecCtx, &pkt) == 0) {
             framecnt++;
             pkt.stream_index = video_st->index;
+//            if((pkt.data[4] & 0x1f) == 5) {
+//
+//                for(int i=0;i<pCodecCtx->extradata_size;i++)
+//                printf("%02x ", pCodecCtx->extradata[i]);
+//                printf("\n");
+//
+//                fwrite(pCodecCtx->extradata, 1, pCodecCtx->extradata_size, file);
+//                //printf("\rwrite sps、pps\n");
+//            }
             //也可以使用C语言函数：fwrite()、fflush()写文件和清空文件写入缓冲区。
-            ret = av_write_frame(pFormatCtx, &pkt);
+//            ret = av_write_frame(pFormatCtx, &pkt);
+            fwrite(pkt.data, 1, pkt.size, file);
             if (ret < 0) {
                 printf("Failed write to file！\n");
             }
@@ -266,11 +284,13 @@ static TMSSoftH264Encoder *encoderInstance = nil;
         printf("Flushing encoder failed\n");
     }
     
+    fclose(file);
     // 1.将还未输出的AVPacket输出出来
-    av_write_trailer(pFormatCtx);
+//    av_write_trailer(pFormatCtx);
     
     // 2.关闭资源
-    avcodec_close(pCodecCtx);
+//    avcodec_close(pCodecCtx);
+    avcodec_free_context(&pCodecCtx);
     av_free(pFrame);
     
     avio_close(pFormatCtx->pb);

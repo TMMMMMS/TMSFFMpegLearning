@@ -33,6 +33,8 @@ static TMSSoftH264Encoder *encoderInstance = nil;
     int                                  encoder_h264_frame_width; // 编码的图像宽度
     int                                  encoder_h264_frame_height; // 编码的图像高度
     FILE                                *file;
+    const AVBitStreamFilter *buffersrc;
+    AVBSFContext *bsf_ctx;
 }
 @end
 
@@ -121,6 +123,13 @@ static TMSSoftH264Encoder *encoderInstance = nil;
     // 越多 B 帧的视频，越清晰，现在很多打视频网站的高清视频，就是采用多编码 B 帧去提高清晰度，
     // 但同时对于编解码的复杂度比较高，比较消耗性能与时间
     pCodecCtx->max_b_frames = 5;
+    
+    buffersrc = av_bsf_get_by_name("h264_mp4toannexb");
+    int ret = av_bsf_alloc(buffersrc,&bsf_ctx);
+    if (ret < 0) {
+        NSLog(@"av_bsf_alloc error");
+        return -1;
+    }
     
 //    // 不设置时，仅第一个I帧前存一次sps和pps
 //    // 设置后，I帧钱不会存储sps和pps
@@ -237,6 +246,8 @@ static TMSSoftH264Encoder *encoderInstance = nil;
         pFrame->height = encoder_h264_frame_height;
         pFrame->format = AV_PIX_FMT_YUV420P;
         
+//        AVBitStreamFilterContext *h26bsfc = av_bitstream_filter_init("h264_mp4toannexb");
+        
         // 5.对编码前的原始数据(AVFormat)利用编码器进行编码，将 pFrame 编码后的数据传入pkt 中
         int ret = avcodec_send_frame(pCodecCtx, pFrame);
         if (ret != 0) {
@@ -245,8 +256,22 @@ static TMSSoftH264Encoder *encoderInstance = nil;
         }
         
         while (avcodec_receive_packet(pCodecCtx, &pkt) == 0) {
-            framecnt++;
-            pkt.stream_index = video_st->index;
+            
+            if (av_bsf_send_packet(bsf_ctx, &pkt) < 0) {
+                av_packet_unref(&pkt);
+                continue;
+            }
+            
+            while (av_bsf_receive_packet(bsf_ctx, &pkt) == 0) {
+                
+                framecnt++;
+                pkt.stream_index = video_st->index;
+                
+                fwrite(pkt.data, 1, pkt.size, file);
+                av_packet_unref(&pkt);
+            }
+            
+//            av_bitstream_filter_filter(h26bsfc, pCodecCtx, NULL, &pkt.data, &pkt.size, pkt.data, pkt.size, 0);
 //            if((pkt.data[4] & 0x1f) == 5) {
 //
 //                for(int i=0;i<pCodecCtx->extradata_size;i++)
@@ -258,12 +283,12 @@ static TMSSoftH264Encoder *encoderInstance = nil;
 //            }
             //也可以使用C语言函数：fwrite()、fflush()写文件和清空文件写入缓冲区。
 //            ret = av_write_frame(pFormatCtx, &pkt);
-            fwrite(pkt.data, 1, pkt.size, file);
-            if (ret < 0) {
-                printf("Failed write to file！\n");
-            }
+//            fwrite(pkt.data, 1, pkt.size, file);
+//            if (ret < 0) {
+//                printf("Failed write to file！\n");
+//            }
             //释放packet
-            av_packet_unref(&pkt);
+//            av_packet_unref(&pkt);
         }
         
         // 7.释放yuv数据
@@ -283,6 +308,8 @@ static TMSSoftH264Encoder *encoderInstance = nil;
     if (ret < 0) {
         printf("Flushing encoder failed\n");
     }
+    
+    av_bsf_free(&bsf_ctx);
     
     fclose(file);
     // 1.将还未输出的AVPacket输出出来
@@ -314,10 +341,46 @@ static TMSSoftH264Encoder *encoderInstance = nil;
     while (true) {
         packet.data = NULL;
         packet.size = 0;
-        ret = avcodec_receive_packet(pCodecCtx, &packet);
-        if (ret < 0) {
-            break;
+        
+        while (avcodec_receive_packet(pCodecCtx, &packet) == 0) {
+            
+            if (av_bsf_send_packet(bsf_ctx, &packet) < 0) {
+                av_packet_unref(&packet);
+                continue;
+            }
+            
+            while (av_bsf_receive_packet(bsf_ctx, &packet) == 0) {
+                
+                framecnt++;
+                pkt.stream_index = video_st->index;
+                
+                fwrite(packet.data, 1, packet.size, file);
+                av_packet_unref(&packet);
+            }
+            
+//            av_bitstream_filter_filter(h26bsfc, pCodecCtx, NULL, &pkt.data, &pkt.size, pkt.data, pkt.size, 0);
+//            if((pkt.data[4] & 0x1f) == 5) {
+//
+//                for(int i=0;i<pCodecCtx->extradata_size;i++)
+//                printf("%02x ", pCodecCtx->extradata[i]);
+//                printf("\n");
+//
+//                fwrite(pCodecCtx->extradata, 1, pCodecCtx->extradata_size, file);
+//                //printf("\rwrite sps、pps\n");
+//            }
+            //也可以使用C语言函数：fwrite()、fflush()写文件和清空文件写入缓冲区。
+//            ret = av_write_frame(pFormatCtx, &pkt);
+//            fwrite(pkt.data, 1, pkt.size, file);
+//            if (ret < 0) {
+//                printf("Failed write to file！\n");
+//            }
+            //释放packet
+//            av_packet_unref(&pkt);
         }
+//        ret = avcodec_receive_packet(pCodecCtx, &packet);
+//        if (ret < 0) {
+//            break;
+//        }
         av_packet_unref(&packet);
     }
     

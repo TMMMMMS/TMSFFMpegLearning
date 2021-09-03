@@ -112,6 +112,8 @@ NS_INLINE void _SleepThread(NSCondition *condition) {
     self.decodeCondition = [[NSCondition alloc] init];
     self.audioPlayCondition = [[NSCondition alloc] init];
     self.videoRenderCondition = [[NSCondition alloc] init];
+    
+    [self.view addSubview:self.renderView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -157,8 +159,6 @@ fail:
                                                                  formatContext:avformat_context];
             
             if(!_mediaVideoContext) return NO;
-            
-            [self.view addSubview:self.renderView];
             
             self.videoPlayer = [[TMSVideoPlayer alloc] initWithQueue:video_render_dispatch_queue
                                                              render:self.renderView

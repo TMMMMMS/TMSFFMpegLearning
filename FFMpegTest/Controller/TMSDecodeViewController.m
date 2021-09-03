@@ -40,7 +40,7 @@
     } else if (indexPath.row == 1) {
         cell.textLabel.text = @"解码视频为yuv文件";
     } else {
-        cell.textLabel.text = @"视频播放";
+        cell.textLabel.text = @"视频播放器";
     }
     
     return cell;

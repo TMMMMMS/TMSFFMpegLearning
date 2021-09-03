@@ -247,8 +247,6 @@
         if(![fileManager fileExistsAtPath:videoFile])
         {
             [fileManager createDirectoryAtPath:videoDict withIntermediateDirectories:YES attributes:nil error:nil];
-            FILE *vF = fopen([videoFile UTF8String], "wb+");
-            fclose(vF);
         }
         [_softH264Encoder setFileSavedPath:videoFile];
         [_softH264Encoder setEncoderVideoWidth:720 height:1280 bitrate:64000];

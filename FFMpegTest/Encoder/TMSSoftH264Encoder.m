@@ -247,15 +247,6 @@ static TMSSoftH264Encoder *encoderInstance = nil;
         while (avcodec_receive_packet(pCodecCtx, &pkt) == 0) {
             framecnt++;
             pkt.stream_index = video_st->index;
-//            if((pkt.data[4] & 0x1f) == 5) {
-//
-//                for(int i=0;i<pCodecCtx->extradata_size;i++)
-//                printf("%02x ", pCodecCtx->extradata[i]);
-//                printf("\n");
-//
-//                fwrite(pCodecCtx->extradata, 1, pCodecCtx->extradata_size, file);
-//                //printf("\rwrite sps、pps\n");
-//            }
             //也可以使用C语言函数：fwrite()、fflush()写文件和清空文件写入缓冲区。
 //            ret = av_write_frame(pFormatCtx, &pkt);
             fwrite(pkt.data, 1, pkt.size, file);
